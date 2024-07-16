@@ -12,13 +12,12 @@ function RecordWords() {
         setWord(wordSave)
         getDataRecord(wordSave)
         setModalRecord(false)
-
-        console.log(wordSave)
+        document.body.style.overflow = '';
     }
 
         return (
             <>
-                <h1 className="text-white text-3xl font-semibold mt-36">Record</h1>
+                <h1 className="text-white text-3xl font-semibold mt-36">Recent searches</h1>
                 <div className="bg-white w-3/5 h-80 max-w-80 min-w-72 py-6 mx-auto mt-6  rounded-lg flex justify-center items-center">
                     <ul className="overflow-y-auto w-96 h-72">
                         {record?.map((wordSave) => (
