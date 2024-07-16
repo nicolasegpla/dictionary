@@ -4,7 +4,7 @@ import { GlobalState } from "../../Global/GlobalState"
 
 function Seeker() {
 
-    const { handlerInput, valueWord, getData, word, showInfo } = useContext(GlobalState)
+    const { handlerInput, valueWord, getData, word, showInfo, errorWord } = useContext(GlobalState)
      
     return (
         <>
@@ -17,6 +17,7 @@ function Seeker() {
                     </button>
                     <span className={`text-red-600 text-sm font-semibold mt-2 px-2 ${!valueWord ? 'hidden' : 'block'}`}>Enter only values, in letters.</span>
                     <span className={`text-red-600 text-sm font-semibold mt-2 px-2 ${!showInfo ? 'hidden' : 'block'}`}>Enter a word</span>
+                    <span className={`text-red-600 text-sm font-semibold mt-2 px-2 ${!errorWord ? 'hidden' : 'block'}`}>Enter a valid word in the English language</span>
                 </label>
                 
             </form>

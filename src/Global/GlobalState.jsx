@@ -16,6 +16,7 @@ function GlobalProvider({children}) {
     const [ record, setRecord ] = useState([])
     const [ meaningsExists, setMeaningsExists ] = useState(true)
     const [ modalRecord, setModalRecord ] = useState(false)
+    const [ errorWord, setErrorWord ] = useState(false)
     
     
     function getDataRecord(wordRecord) {
@@ -68,6 +69,7 @@ function GlobalProvider({children}) {
         const valueLowCase = value.toLowerCase()
         const validatorword = validator.test(valueLowCase) 
         setShowInfo(false)
+        setErrorWord(false)
         
 
         if(validatorword) {
@@ -84,44 +86,58 @@ function GlobalProvider({children}) {
         localStorage.setItem('RECORDWORDS', JSON.stringify(newWord));
     }
 
-    
-    
-    
-    function getData() {
-        word == '' ? setShowInfo(true) :  null
-        
-        fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-        .then((res) =>  res.json())
-        .then((data) => {
+    const getData = async () => {
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            if(!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
             setDataWord(data),
             data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true) 
             record.includes(word) ? null :  setRecord([...record, word]) 
-        })
-        .catch(error => {
-            console.log(error)
-        })
-        
-       
-            const newData = [...record];
-            newData.includes(word) ? null : newData.push(word)
-            console.log(newData)
-            saveWord(newData)
-        
-            console.log(newData.includes(word))
-       
-        setWord('')
+        }catch (error) {
+            setErrorWord(true);
     }
+    const newData = [...record];
+    newData.includes(word) ? null : newData.push(word)
+    saveWord(newData)
+
+    setWord('')
+    }
+    
+    
+    //function getData() {
+        //word == '' ? setShowInfo(true) :  null
+        
+        //fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+        //.then((res) =>  res.json())
+        //.then((data) => {
+            //setDataWord(data),
+            //data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true) 
+            //record.includes(word) ? null :  setRecord([...record, word]) 
+        //})
+        //.catch(error => {
+            //console.log(error)
+        //})
+        
+       
+            //const newData = [...record];
+            //newData.includes(word) ? null : newData.push(word)
+            //console.log(newData)
+            //saveWord(newData)
+        
+            //console.log(newData.includes(word))
+       
+        //setWord('')
+    //}
 
     useEffect(() => {
         const getLocal = localStorage.getItem('RECORDWORDS')
         const getLocalParse = JSON.parse(getLocal)
-        console.log(`esto es lo que hay: ${getLocalParse}`)
         getLocalParse == null ? setRecord([]) : setRecord(getLocalParse)
         
     }, [])    
-        
-       
-   console.log(record)
         
      function deleteRecord() {
         localStorage.removeItem('RECORDWORDS')
@@ -155,6 +171,7 @@ function GlobalProvider({children}) {
                 setWord,
                 getDataRecord,
                 deleteRecord,
+                errorWord,
             }}
         >
             {children}

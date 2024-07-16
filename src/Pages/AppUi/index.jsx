@@ -18,7 +18,7 @@ function AppUi() {
 
     return (
         <>
-            <Layout >
+            <Layout className={`${modalRecord ? 'overflow-hidden' : 'overflow-scroll'}`}>
                 <Nav/>
                 <ContainerCom block={'min-[478px]:hidden'}>
                     <ButtonRecord  />
