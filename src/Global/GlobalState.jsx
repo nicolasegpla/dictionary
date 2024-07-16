@@ -18,6 +18,17 @@ function GlobalProvider({children}) {
     const [ modalRecord, setModalRecord ] = useState(false)
     
     
+    function getDataRecord(wordRecord) {
+        fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordRecord}`)
+        .then((res) =>  res.json())
+        .then((data) => {
+            setDataWord(data), 
+            data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true)
+        })
+        .catch(error => console.error(`tenemos este error: ${error}`))
+
+        setWord('')
+    }
     
 
     
@@ -45,6 +56,10 @@ function GlobalProvider({children}) {
     function OpenRecord() {
         setModalRecord(true)
         document.body.style.overflow = 'hidden';
+    }
+    function closeRecord() {
+        setModalRecord(false)
+        document.body.style.overflow = '';
     }
 
     function handlerInput({target}) {
@@ -80,15 +95,15 @@ function GlobalProvider({children}) {
         .then((data) => {
             setDataWord(data),
             data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true) 
-            record.includes(word) ? null :  setRecord([...record, word])
-            
+            record.includes(word) ? null :  setRecord([...record, word]) 
         })
-        .catch(error => console.log(`tenemos este error: ${error}`))
+        .catch(error => {
+            console.log(error)
+        })
         
        
             const newData = [...record];
             newData.includes(word) ? null : newData.push(word)
-            
             console.log(newData)
             saveWord(newData)
         
@@ -132,6 +147,10 @@ function GlobalProvider({children}) {
                 modalRecord,
                 OpenRecord,
                 record,
+                closeRecord,
+                setModalRecord,
+                setWord,
+                getDataRecord,
             }}
         >
             {children}
