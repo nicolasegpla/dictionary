@@ -15,30 +15,21 @@ function GlobalProvider({children}) {
     const [ showInfo, setShowInfo ] = useState(false)
     const [ record, setRecord ] = useState([])
     const [ meaningsExists, setMeaningsExists ] = useState(true)
-    const [ recordParsed, setRecordParsed] = useState([])
-    const [ saveWord, setSaveWord] = useState([])
+    const [ modalRecord, setModalRecord ] = useState(false)
     
     
     
 
-    //const  dataWord  = useGetData(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-
+    
     useEffect(() => {
         fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/keyboard`)
         .then((res) =>  res.json())
         .then((data) => {
             setDataWord(data), 
-            console.log(data)
             data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true)
         })
-        .catch(error => console.log(`tenemos este error: ${error}`))
-
-        
-        
+        .catch(error => console.error(`tenemos este error: ${error}`))
     }, [])
-
-    
-    
 
     function openOptions() {
         setSelect(true)
@@ -49,6 +40,11 @@ function GlobalProvider({children}) {
     }
     function changeMode() {
         setMode(state => !state)
+    }
+
+    function OpenRecord() {
+        setModalRecord(true)
+        document.body.style.overflow = 'hidden';
     }
 
     function handlerInput({target}) {
@@ -67,28 +63,54 @@ function GlobalProvider({children}) {
         }
     }
 
-    console.log(word)
+    
+
+    const saveWord = (newWord) => {
+        localStorage.setItem('RECORDWORDS', JSON.stringify(newWord));
+    }
+
+    
     
     
     function getData() {
-        word == '' ? setShowInfo(true) :  console.log(dataWord)
+        word == '' ? setShowInfo(true) :  null
         
-
         fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
         .then((res) =>  res.json())
         .then((data) => {
-            setDataWord(data), 
-            console.log(data)
+            setDataWord(data),
             data[0].meanings.length > 1 ? setMeaningsExists(false) : setMeaningsExists(true) 
+            record.includes(word) ? null :  setRecord([...record, word])
+            
         })
         .catch(error => console.log(`tenemos este error: ${error}`))
-
-        setRecord([...record, word])
+        
+       
+            const newData = [...record];
+            newData.includes(word) ? null : newData.push(word)
+            
+            console.log(newData)
+            saveWord(newData)
+        
+            console.log(newData.includes(word))
+       
         setWord('')
     }
-    
-    
-    
+
+    useEffect(() => {
+        const getLocal = localStorage.getItem('RECORDWORDS')
+        const getLocalParse = JSON.parse(getLocal)
+        console.log(`esto es lo que hay: ${getLocalParse}`)
+        getLocalParse == null ? setRecord([]) : setRecord(getLocalParse)
+        
+    }, [])    
+        
+       
+   console.log(record)
+        
+        
+        
+        
    
 
     return(
@@ -107,7 +129,9 @@ function GlobalProvider({children}) {
                 showInfo,
                 dataWord,
                 meaningsExists,
-                
+                modalRecord,
+                OpenRecord,
+                record,
             }}
         >
             {children}

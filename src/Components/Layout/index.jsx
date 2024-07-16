@@ -4,7 +4,9 @@ import { GlobalState } from "../../Global/GlobalState"
 /* eslint-disable react/prop-types */
 function Layout({children}) {
 
-    const {mode, option} = useContext(GlobalState)
+    const {mode, option } = useContext(GlobalState)
+
+    
 
     return(
         <>

@@ -7,20 +7,24 @@ import { useContext } from "react";
 import { GlobalState } from "../../Global/GlobalState";
 import PartOfSpeech from "../../Components/PartOfSpeech";
 import Meaning from "../../Components/Meaning";
+import { Modal } from "../../Components/Modal";
+import ButtonRecord from "../../Components/ButtonRecord";
+import ContainerCom from "../../Components/ContainerCom";
+import RecordWords from "../../Components/RecordWords"
 
 function AppUi() {
 
-    const { dataWord, meaningsExists } = useContext(GlobalState)
-
-    //console.log(dataWord[0].meanings.length > 1)
-    
-    
+    const { dataWord, meaningsExists, modalRecord } = useContext(GlobalState)    
 
     return (
         <>
-            <Layout>
+            <Layout >
                 <Nav/>
+                <ContainerCom block={'min-[478px]:hidden'}>
+                    <ButtonRecord  />
+                </ContainerCom>
                 <Seeker />
+                
                 {
                     dataWord ? <WordAndVoice  title={dataWord[0].word} wordSy={dataWord[0].phonetic} pho={dataWord[0].phonetics[0].audio}/> : <WordAndVoice  title={'Keyboard'} wordSy={'/fdrg/'}/>
                 }
@@ -47,6 +51,11 @@ function AppUi() {
                     </div> : null
                 }
                 
+                <Modal>
+                    {
+                        modalRecord ? <RecordWords /> : null
+                    }
+                </Modal>
                
                 
                 

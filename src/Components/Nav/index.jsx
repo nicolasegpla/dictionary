@@ -5,6 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline"
 import '../../index.css'
 import { useContext } from "react"
 import { GlobalState } from "../../Global/GlobalState"
+import ButtonRecord from "../ButtonRecord"
 
 function Nav(){
 
@@ -14,7 +15,7 @@ function Nav(){
             <nav className={`w-3/5 max-[1080px]:w-full flex justify-between px-4 items-center font-serif py-4	fixed top-0 ${mode ? 'bg-white' : 'bg-black'} z-10`}>
                 <div><BookOpenIcon className={`size-10 ${mode ? 'text-zinc-700' : 'text-slate-50' } `} /></div>
                 <div className="flex justify-center items-center gap-4">
-
+                    <ButtonRecord display={'max-[478px]:hidden'} />
                     <div className=" relative">
                         <div onClick={openOptions} className="w-30 flex justify-between items-center gap-2 cursor-pointer px-2">
                             <p className={`text-lg ${option.value}`}>{option.name}</p>
