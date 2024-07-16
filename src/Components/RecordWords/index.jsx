@@ -6,7 +6,7 @@ function RecordWords() {
     
     
 
-    const {record, closeRecord, setModalRecord, setWord, getDataRecord} = useContext(GlobalState)
+    const {record, closeRecord, setModalRecord, setWord, getDataRecord, deleteRecord} = useContext(GlobalState)
 
     function showWord(wordSave) {
         setWord(wordSave)
@@ -18,6 +18,7 @@ function RecordWords() {
         return (
             <>
                 <h1 className="text-white text-3xl font-semibold mt-36">Recent searches</h1>
+                <button onClick={deleteRecord} className="w-52 mt-6 h-8 rounded-lg bg-indigo-600 hover:bg-red-400">Remove from history</button>
                 <div className="bg-white w-3/5 h-80 max-w-80 min-w-72 py-6 mx-auto mt-6  rounded-lg flex justify-center items-center">
                     <ul className="overflow-y-auto w-96 h-72">
                         {record?.map((wordSave) => (

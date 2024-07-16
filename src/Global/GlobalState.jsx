@@ -123,7 +123,10 @@ function GlobalProvider({children}) {
        
    console.log(record)
         
-        
+     function deleteRecord() {
+        localStorage.removeItem('RECORDWORDS')
+        setRecord([])
+     }   
         
         
    
@@ -151,6 +154,7 @@ function GlobalProvider({children}) {
                 setModalRecord,
                 setWord,
                 getDataRecord,
+                deleteRecord,
             }}
         >
             {children}
