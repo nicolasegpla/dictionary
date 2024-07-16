@@ -26,7 +26,7 @@ function RecordWords() {
                         ))}
                     </ul>
                 </div>
-                <button onClick={closeRecord} className="mt-6 w-12 h-12 bg-indigo-600 hover:bg-green-300 rounded-full flex justify-center items-center mx-auto"><XMarkIcon className="size-6"/></button>
+                <button onClick={closeRecord} className="mt-6 w-12 h-12 bg-indigo-600 hover:bg-green-300 rounded-full flex justify-center items-center mx-auto"><XMarkIcon className="size-6 text-white"/></button>
                 
             </>
         )
